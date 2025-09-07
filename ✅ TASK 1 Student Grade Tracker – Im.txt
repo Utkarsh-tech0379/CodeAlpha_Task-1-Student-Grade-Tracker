@@ -1,0 +1,82 @@
+✅ TASK 1: Student Grade Tracker – Implementation Plan
+📌 Key Requirements
+- Input and manage student grades
+- Calculate average, highest, and lowest scores
+- Use arrays or ArrayLists
+- Display summary report
+- Console or GUI interface
+
+🧱 Suggested Java Structure (Console-Based)
+1. Student Class
+
+public class Student {
+    private String name;
+    private ArrayList<Integer> grades;
+
+    public Student(String name) {
+        this.name = name;
+        this.grades = new ArrayList<>();
+    }
+
+    public void addGrade(int grade) {
+        grades.add(grade);
+    }
+
+    public double getAverage() {
+        return grades.stream().mapToInt(Integer::intValue).average().orElse(0);
+    }
+
+    public int getHighest() {
+        return grades.stream().mapToInt(Integer::intValue).max().orElse(0);
+    }
+
+    public int getLowest() {
+        return grades.stream().mapToInt(Integer::intValue).min().orElse(0);
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+
+2. Main Program
+
+import java.util.*;
+
+public class GradeTracker {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Student> students = new ArrayList<>();
+
+        System.out.print("Enter number of students: ");
+        int count = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+
+        for (int i = 0; i < count; i++) {
+            System.out.print("Enter student name: ");
+            String name = scanner.nextLine();
+            Student student = new Student(name);
+
+            System.out.print("Enter number of grades for " + name + ": ");
+            int gradeCount = scanner.nextInt();
+
+            for (int j = 0; j < gradeCount; j++) {
+                System.out.print("Enter grade " + (j + 1) + ": ");
+                int grade = scanner.nextInt();
+                student.addGrade(grade);
+            }
+            scanner.nextLine(); // consume newline
+            students.add(student);
+        }
+
+        System.out.println("\n--- Student Summary Report ---");
+        for (Student s : students) {
+            System.out.println("Name: " + s.getName());
+            System.out.println("Average: " + s.getAverage());
+            System.out.println("Highest: " + s.getHighest());
+            System.out.println("Lowest: " + s.getLowest());
+            System.out.println("-----------------------------");
+        }
+    }
+}
